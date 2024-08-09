@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Twitter Search Tool</title>
+</head>
+<body>
+    <h1>Twitter Search Tool</h1>
+    
+    <form id="loginForm">
+        <label for="profile_key">Firefox Profile:</label><br>
+        <select id="profile_key" name="profile_key" required>
+            <option value="default-release">Default Release</option>
+            <option value="default">Default</option>
+        </select><br><br>
+
+        <label for="name">Name to Search:</label><br>
+        <input type="text" id="name" name="name" required><br><br>
+
+        <label for="negative_words">Negative Words (comma separated):</label><br>
+        <input type="text" id="negative_words" name="negative_words" required><br><br>
+
+        <button type="button" id="proceedButton">Proceed to Search</button>
+    </form>
+
+    <div id="continueSection" style="display:none;">
+        <p>Once you've logged into Twitter in the browser window, click "Continue" to start the search.</p>
+        <button type="button" id="continueButton">Continue</button>
+    </div>
+
+    <h2>Results:</h2>
+    <ul id="results"></ul>
+
+    <script>
+        document.getElementById('proceedButton').addEventListener('click', function() {
+            const profile_key = document.getElementById('profile_key').value;
+
+            fetch('/start_login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ profile_key })
+            }).then(response => {
+                if (response.ok) {
+                    document.getElementById('continueSection').style.display = 'block';
+                    document.getElementById('proceedButton').disabled = true;
+                }
+            }).catch(error => {
+                console.error('Error:', error);
+            });
+        });
+
+        document.getElementById('continueButton').addEventListener('click', function() {
+            const profile_key = document.getElementById('profile_key').value;
+            const name = document.getElementById('name').value;
+            const negative_words = document.getElementById('negative_words').value.split(',');
+
+            fetch('/continue_search', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ profile_key, name, negative_words })
+            })
+            .then(response => response.json())
+            .then(data => {
+                const resultsElement = document.getElementById('results');
+                resultsElement.innerHTML = '';
+                data.results.forEach(result => {
+                    const li = document.createElement('li');
+                    li.textContent = result;
+                    resultsElement.appendChild(li);
+                });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>
+
