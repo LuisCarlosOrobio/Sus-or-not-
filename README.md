@@ -52,3 +52,7 @@ You can install the required dependencies using the following methods:
 3. Run the App
    ```bash
    python app.py
+
+4. Copy and paste link in the browser
+   ```bash
+   http://localhost:5000/
