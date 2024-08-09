@@ -42,3 +42,13 @@ You can install the required dependencies using the following methods:
    ```bash
    git clone https://github.com/LuisCarlosOrobio/Sus-or-not-.git
    cd Sus-or-not
+
+2. Set Up Environment Variables
+   ```bash
+   export FIREFOX_PROFILE_DEFAULT_RELEASE="/path/to/default-release/profile"
+   export FIREFOX_PROFILE_DEFAULT="/path/to/default/profile"
+   export GECKODRIVER_PATH="/path/to/geckodriver"
+
+3. Run the App
+   ```bash
+   python app.py
