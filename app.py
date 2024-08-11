@@ -106,7 +106,7 @@ def continue_search():
                             results.append("SUS!!!!!!")
                             results.append(f"Tweet: {tweet_text}")
                         else:
-                            results.append(f"No negative association found in this tweet for '{name}' and '{word}'.")
+                            results.append(f"No SUS activity found in this tweet for '{name}' and '{word}'.")
                         
                         # Optionally, close the tweet overlay or return to the search results
                         driver.back()  # Navigate back to the search results
